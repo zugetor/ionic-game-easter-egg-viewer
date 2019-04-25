@@ -8,10 +8,22 @@
 
 <ion-content>
   <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
+    <ion-list-header>Follow us on</ion-list-header>
+	<a ion-item (click)="openUrl('facebook')">
+      <ion-icon name="logo-facebook" item-start></ion-icon>
+      ZuGeTor
+    </a>
+    <a ion-item (click)="openUrl('twitter')">
+      <ion-icon name="logo-twitter" item-start></ion-icon>
+      @zugetor
+    </a>
+	<a ion-item (click)="openUrl('youtube')">
+      <ion-icon name="logo-youtube" item-start></ion-icon>
+      ZuGeTor iT
+    </a>
+	<a ion-item (click)="openUrl('github')">
+      <ion-icon name="logo-github" item-start></ion-icon>
+      ZuGeTor iT
+    </a>
   </ion-list>
 </ion-content>
