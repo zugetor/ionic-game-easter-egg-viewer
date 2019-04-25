@@ -10,18 +10,51 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-    <ion-list>
+<ion-content class="tutorial-page">
 
-        <ion-item>
-          <ion-label floating>Username</ion-label>
-          <ion-input type="text"></ion-input>
+  <ion-slides pager>
+    <ion-slide>
+      <ion-toolbar>
+      </ion-toolbar>
+      <img src="assets/imgs/controller_pic.png" class="slide-image" />
+      <h2 class="slide-title">Select Game!</h2>
+      <p>please select game to add easter eggs</p>
+      <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      {{ item }}
+    </ion-item>
+  </ion-list>
+    </ion-slide>
+    <ion-slide>
+      <ion-toolbar>
+      </ion-toolbar>
+      <img src="assets/imgs/mario.png" class="slide-image" />
+      <h2 class="slide-title">Enter Title!</h2>
+      <p>please enter title of blog</p>
+      <ion-item>
+          <ion-input type="text" placeholder="Enter here!"></ion-input>
         </ion-item>
-      
-        <ion-item>
-          <ion-label floating>Password</ion-label>
-          <ion-input type="password"></ion-input>
+    </ion-slide>
+    <ion-slide>
+      <ion-toolbar>
+      </ion-toolbar>
+      <img src="assets/imgs/pikachu.png" class="slide-image" />
+      <h2 class="slide-title">add some detail!</h2>
+      <p>add easter egg's detail</p>
+      <ion-item>
+          <ion-input type="text" placeholder="Enter here!"></ion-input>
         </ion-item>
-      
-      </ion-list>
+    </ion-slide>
+    <ion-slide>
+      <ion-toolbar>
+      </ion-toolbar>
+      <img src="assets/imgs/pacman.png" class="slide-image" />
+      <h2 class="slide-title">Ready to commit?</h2>
+      <button ion-button large clear icon-end color="primary">
+        Continue
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
