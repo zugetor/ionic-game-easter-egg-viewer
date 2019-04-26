@@ -17,14 +17,15 @@
       <ion-toolbar>
       </ion-toolbar>
       <img src="assets/imgs/controller_pic.png" class="slide-image" />
-      <h2 class="slide-title">Select Game!</h2>
-      <p>please select game to add easter eggs</p>
-      <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      {{ item }}
-    </ion-item>
-  </ion-list>
+      <h2 class="slide-title">{{ selectGame }}</h2>
+      <p>{{ description }}</p>
+     
+  <ion-searchbar [(ngModel)]="game" (input)="getItems($event)" placeholder="Search"></ion-searchbar>
+    <ion-list>
+        <button ion-item *ngFor="let item of items" (click)="chooseGame(item)">
+            {{item}}
+        </button>
+    </ion-list>
     </ion-slide>
     <ion-slide>
       <ion-toolbar>
@@ -43,7 +44,7 @@
       <h2 class="slide-title">add some detail!</h2>
       <p>add easter egg's detail</p>
       <ion-item>
-          <ion-input type="text" placeholder="Enter here!"></ion-input>
+          <ion-textarea placeholder="Enter a description"></ion-textarea>
         </ion-item>
     </ion-slide>
     <ion-slide>
