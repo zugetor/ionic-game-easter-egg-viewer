@@ -34,11 +34,11 @@
       <h2 class="slide-title">Enter Title!</h2>
       <p>Please enter title of blog</p>
       <ion-item>
-          <ion-input type="text" placeholder="Enter here!"></ion-input>
+          <ion-input type="text" [(ngModel)]="name" placeholder="Enter here!"></ion-input>
       </ion-item>
 	  <p>Add detail of a game</p>
       <ion-item>
-          <ion-textarea rows="5" placeholder="Enter a description"></ion-textarea>
+          <ion-textarea rows="5" [(ngModel)]="detail" placeholder="Enter a description"></ion-textarea>
       </ion-item>
     </ion-slide>
     <ion-slide>
