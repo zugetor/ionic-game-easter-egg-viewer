@@ -14,7 +14,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AddPage } from '../pages/add/add';
 import { GamedetailPage } from '../pages/gamedetail/gamedetail';
 import { HttpClientModule } from '@angular/common/http';
-
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
-    
+    HttpModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule
   ],

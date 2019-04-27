@@ -62,6 +62,10 @@
                      <ion-label floating>Detail:</ion-label>
                      <ion-input type="text" maxlength="50" formControlName="easter_detail"></ion-input>
                   </ion-item>
+				  <ion-item>
+                     <ion-label>Picture:</ion-label>
+                     <ion-input type="file" id="egg" formControlName="easter_file"></ion-input>
+                  </ion-item>
 				  <ion-item *ngIf="form_egg.controls.egg.length == 1" ></ion-item>
                   <span float-right ion-button icon-left clear *ngIf="form_egg.controls.egg.length > 1" (click)="removeInputField(i)"><ion-icon name="close"></ion-icon>Remove</span>
                </ion-item-group>
@@ -77,7 +81,7 @@
       </ion-toolbar>
       <img src="assets/imgs/pacman.png" class="slide-image" />
       <h2 class="slide-title">Ready to commit?</h2>
-      <button ion-button large clear icon-end color="primary" (click)="manage(form_egg.value)" [disabled]="!form_egg.valid">
+      <button ion-button large clear icon-end color="primary" (click)="manage(form_egg.value)">
         Continue
         <ion-icon name="arrow-forward"></ion-icon>
       </button>

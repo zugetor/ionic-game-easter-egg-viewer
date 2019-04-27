@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component,ElementRef} from '@angular/core';
 import {IonicPage,NavController,NavParams} from 'ionic-angular';
 import {FormBuilder,FormArray,FormGroup,Validators} from '@angular/forms';
 import { HttpClient} from '@angular/common/http';
+import { Http , Headers, RequestOptions} from '@angular/http';
 /**
  * Generated class for the AddPage page.
  *
@@ -14,9 +15,11 @@ import { HttpClient} from '@angular/common/http';
 	selector: 'page-add',
 	templateUrl: 'add.html',
 })
+
 export class AddPage {
-	public form_egg: FormGroup;
-	constructor(public navCtrl: NavController, public navParams: NavParams, private _FB: FormBuilder,public httpClient: HttpClient) {
+	public form_egg: FormGroup;		
+
+	constructor(public navCtrl: NavController, public navParams: NavParams, private _FB: FormBuilder,public httpClient: HttpClient,public http: Http) {
 		this.initializeItems();
 		 this.form_egg = this._FB.group({			 
 			 egg     : this._FB.array([
@@ -94,7 +97,8 @@ export class AddPage {
 	initTechnologyFields(): FormGroup {
 		return this._FB.group({
 			easter_name: ['', Validators.required],
-			easter_detail: ['', Validators.required]
+			easter_detail: ['', Validators.required],
+			easter_file: ['', Validators.required]
 		});
 	}
 
@@ -108,22 +112,36 @@ export class AddPage {
 	}
 
 	manage(val: any): void {
-		console.dir(val);
-	let postData=new FormData();
-	postData.append('name',this.name+" - "+this.selectGame);
-	postData.append('detail',this.detail);
-	postData.append('pic','');
-	for(var i = 0; i < this.form_egg.controls.egg.value.length; i++){
-		postData.append('egg_name[]',this.form_egg.controls.egg.value[i].easter_name);
-		postData.append('egg_detail[]',this.form_egg.controls.egg.value[i].easter_detail);
-		postData.append('egg_pic[]','');
-	 }
+		var input = document.querySelectorAll('input[type="file"]');
+		let headers = new Headers();
+		headers.append('Authorization' , 'Client-ID 57ce76ef7323415');
+		let options = new RequestOptions({ headers: headers });
+		for (var i = 0; i < input.length; i++) {
+			console.log(input[i].parentNode.id);
+			let formData=new FormData();
+			formData.append('image' , input[i].files[0], input[i].files[0].name);
+			/*this.http.post("https://api.imgur.com/3/image",formData,options)
+			.subscribe(data => {
+					console.log(data);
+				}, error => {
+					console.log(error);
+			});*/
+		}
+		let postData=new FormData();
+		postData.append('name',this.name+" - "+this.selectGame);
+		postData.append('detail',this.detail);
+		postData.append('pic','');
+		for(var i = 0; i < this.form_egg.controls.egg.value.length; i++){
+			postData.append('egg_name[]',this.form_egg.controls.egg.value[i].easter_name);
+			postData.append('egg_detail[]',this.form_egg.controls.egg.value[i].easter_detail);
+			postData.append('egg_pic[]','');
+		}
 		this.httpClient.post('https://unswayable-dozen.000webhostapp.com/post.php?method=add',postData)
 		.subscribe(data => {
-			console.log(data['_body']);
-		   }, error => {
-			console.log(error);
-		  });
+				console.log(data['_body']);
+			}, error => {
+				console.log(error);
+		});
 		
 		
 	}
