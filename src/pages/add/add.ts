@@ -21,9 +21,19 @@ export class AddPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddPage');
+  this.selectGame = "Select Game!!";
+  this.description = "please select game to add easter eggs";
   }
-  items;
 
+  items;
+  selectGame;
+  description;
+  game;
+  
+  chooseGame(game:string){
+    this.selectGame=game;
+    this.description = "";
+  }
 
   initializeItems() {
     this.items = [
@@ -66,6 +76,7 @@ export class AddPage {
 
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
+      
       this.items = this.items.filter((item) => {
         return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
