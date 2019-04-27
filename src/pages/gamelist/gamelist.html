@@ -11,43 +11,25 @@
 </ion-header>
 
 <ion-content padding  class="card-background-page">
-    <button class="button-light" (click)="viewDetailPage()">
-    <ion-card>
-
-        <img src="assets/imgs/Resident-Evil-2-Remake.jpg">
-      
-        <ion-item>
-          <h2>Resident Evil 2</h2>
-          <h3>10 Awesome Easter Eggs Fans Have Totally Missed</h3>
-        </ion-item>
-        <ion-item>
-            <span item-end>25/04/2020</span>
-            <ion-avatar item-left>
-              <img src="assets/imgs/Resident-Evil-2-Remake.jpg">
-            </ion-avatar>
-            <span item-start>Mr.banana</span>
-            
-          </ion-item>
-      </ion-card>
-</button>
-<button class="button-light" (click)="viewDetailPage()">
-      <ion-card>
-
-          <img src="assets/imgs/Breath_of_the_Wild.jpg">
-        
-          <ion-item>
-            <h2>The Legend of Zelda: Breath of the Wild</h2>
-            <h3>Easter Eggs and References</h3>
-          </ion-item>
-          <ion-item>
-              <ion-avatar item-left>
-                  <img src="assets/imgs/Breath_of_the_Wild.jpg">
-                </ion-avatar>
-              <span item-end>24/04/2020</span>
-              
-              <span item-start>Zugetor</span>
-              
+    
+      <button class="button-light" *ngFor="let post of postlist" (click)="viewDetailPage(post)">
+        <ion-card>
+  
+            <img src="{{post.picture_url}}">
+          
+            <ion-item>
+              <h2>{{ post.name}}</h2>
+              <h3>{{post.detail}}</h3>
             </ion-item>
-        </ion-card>
-      </button>
+            <ion-item>
+                <ion-avatar item-left>
+                    <img src="assets/imgs/Breath_of_the_Wild.jpg">
+                  </ion-avatar>
+                <span item-end>24/04/2020</span>
+                
+                <span item-start>Zugetor</span>
+                
+              </ion-item>
+          </ion-card>
+        </button>
   </ion-content>

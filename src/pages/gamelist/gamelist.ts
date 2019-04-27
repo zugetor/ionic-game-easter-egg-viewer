@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { GamedetailPage } from '../gamedetail/gamedetail';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient} from '@angular/common/http';
 
 /**
  * Generated class for the GamelistPage page.
@@ -15,15 +17,23 @@ import { GamedetailPage } from '../gamedetail/gamedetail';
   templateUrl: 'gamelist.html',
 })
 export class GamelistPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  gamepost: Observable<any>;
+  postlist="";
+  constructor(public navCtrl: NavController, public httpClient: HttpClient) { 
+    this.gamepost = this.httpClient.get('https://unswayable-dozen.000webhostapp.com/post.php?method=view');
+    this.gamepost
+    .subscribe(data => {
+      console.log('my data: ', data);
+      this.postlist=data;
+    })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GamelistPage');
   }
-  viewDetailPage(){
-    this.navCtrl.push(GamedetailPage);
+  viewDetailPage(detail){
+    
+    this.navCtrl.push(GamedetailPage, {detail: detail});
   }
 
 }

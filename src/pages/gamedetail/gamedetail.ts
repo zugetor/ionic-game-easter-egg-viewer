@@ -15,9 +15,14 @@ import { Map, tileLayer } from 'leaflet';
 })
 export class GamedetailPage {
   map: Map;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  post: any;
 
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.post = this.navParams.get('detail');
+    console.log(this.post);
+    
+  }
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad GamedetailPage');
 	
