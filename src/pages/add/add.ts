@@ -112,21 +112,11 @@ export class AddPage {
 	}
 
 	manage(val: any): void {
+		let temp:any;
 		var input = document.querySelectorAll('input[type="file"]');
 		let headers = new Headers();
 		headers.append('Authorization' , 'Client-ID 57ce76ef7323415');
 		let options = new RequestOptions({ headers: headers });
-		for (var i = 0; i < input.length; i++) {
-			console.log(input[i].parentNode.id);
-			let formData=new FormData();
-			formData.append('image' , input[i].files[0], input[i].files[0].name);
-			/*this.http.post("https://api.imgur.com/3/image",formData,options)
-			.subscribe(data => {
-					console.log(data);
-				}, error => {
-					console.log(error);
-			});*/
-		}
 		let postData=new FormData();
 		postData.append('name',this.name+" - "+this.selectGame);
 		postData.append('detail',this.detail);
@@ -134,7 +124,21 @@ export class AddPage {
 		for(var i = 0; i < this.form_egg.controls.egg.value.length; i++){
 			postData.append('egg_name[]',this.form_egg.controls.egg.value[i].easter_name);
 			postData.append('egg_detail[]',this.form_egg.controls.egg.value[i].easter_detail);
-			postData.append('egg_pic[]','');
+			//postData.append('egg_pic[]','');
+		}
+		for (var i = 0; i < input.length; i++) {
+			
+			let formData=new FormData();
+			formData.append('image' , input[i].files[0], input[i].files[0].name);
+			this.http.post("https://api.imgur.com/3/image",formData,options)
+			.subscribe(data => {
+					console.log(data);
+					temp=data;
+					var json = JSON.parse(temp._body);
+					postData.append('egg_pic[]',"https://imgur.com/"+json.data.id);
+				}, error => {
+					console.log(error);
+			});
 		}
 		this.httpClient.post('https://unswayable-dozen.000webhostapp.com/post.php?method=add',postData)
 		.subscribe(data => {
