@@ -1,9 +1,9 @@
-import {Component,ElementRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage,NavController,NavParams} from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 import {FormBuilder,FormArray,FormGroup,Validators} from '@angular/forms';
-import { HttpClient} from '@angular/common/http';
-import { Http , Headers, RequestOptions} from '@angular/http';
 import axios from 'axios';
+
 /**
  * Generated class for the AddPage page.
  *
@@ -20,7 +20,7 @@ import axios from 'axios';
 export class AddPage {
 	public form_egg: FormGroup;		
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, private _FB: FormBuilder,public httpClient: HttpClient,public http: Http) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, private _FB: FormBuilder,public toastController: ToastController) {
 		this.initializeItems();
 		 this.form_egg = this._FB.group({			 
 			 egg     : this._FB.array([
@@ -111,8 +111,17 @@ export class AddPage {
 		const control = < FormArray > this.form_egg.controls.egg;
 		control.removeAt(i);
 	}
+	
+	async showToastWithCloseButton(txt: string) {
+		const toast = await this.toastController.create({
+			message: txt,
+			showCloseButton: true,
+			closeButtonText: 'Ok'
+		});
+		toast.present();
+	}
 
-	async manage(val: any) {
+	async  manage(val: any) {
 		let postData=new FormData();
 		postData.append('name',this.name+" - "+this.selectGame);
 		postData.append('detail',this.detail);		
@@ -125,7 +134,7 @@ export class AddPage {
 		var promises = [];
 		for (var i = 0; i < input.length; i++) {
 			let formData=new FormData();
-			formData.append('image' , input[i].files[0], input[i].files[0].name);
+			formData.append('image' , input[i]['files'][0], input[i]['files'][0]['name']);
 			promises.push(axios.post("https://api.imgur.com/3/image", formData,config));
 		}
 		axios.all(promises).then(function(results) {
@@ -135,6 +144,11 @@ export class AddPage {
 			})
 			postData.append('pic',results[0].data.data.link);
 			axios.post('https://unswayable-dozen.000webhostapp.com/post.php?method=add', postData);
-		});	
+		}).then( res => {
+			this.showToastWithCloseButton('Your post were successfully saved');
+		})
+		.catch( err => {
+			this.showToastWithCloseButton('Sorry, something went wrong.');
+		})
 	}
 }
