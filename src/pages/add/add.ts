@@ -3,6 +3,7 @@ import {IonicPage,NavController,NavParams} from 'ionic-angular';
 import {FormBuilder,FormArray,FormGroup,Validators} from '@angular/forms';
 import { HttpClient} from '@angular/common/http';
 import { Http , Headers, RequestOptions} from '@angular/http';
+import axios from 'axios';
 /**
  * Generated class for the AddPage page.
  *
@@ -111,42 +112,29 @@ export class AddPage {
 		control.removeAt(i);
 	}
 
-	manage(val: any): void {
-		let temp:any;
-		var input = document.querySelectorAll('input[type="file"]');
-		let headers = new Headers();
-		headers.append('Authorization' , 'Client-ID 57ce76ef7323415');
-		let options = new RequestOptions({ headers: headers });
+	async  manage(val: any): void {
 		let postData=new FormData();
 		postData.append('name',this.name+" - "+this.selectGame);
-		postData.append('detail',this.detail);
-		postData.append('pic','');
+		postData.append('detail',this.detail);		
 		for(var i = 0; i < this.form_egg.controls.egg.value.length; i++){
 			postData.append('egg_name[]',this.form_egg.controls.egg.value[i].easter_name);
 			postData.append('egg_detail[]',this.form_egg.controls.egg.value[i].easter_detail);
-			//postData.append('egg_pic[]','');
 		}
+		var input = document.querySelectorAll('input[type="file"]');
+		var config = {headers: {'Authorization': 'Client-ID 57ce76ef7323415'}};
+		var promises = [];
 		for (var i = 0; i < input.length; i++) {
-			
 			let formData=new FormData();
 			formData.append('image' , input[i].files[0], input[i].files[0].name);
-			this.http.post("https://api.imgur.com/3/image",formData,options)
-			.subscribe(data => {
-					console.log(data);
-					temp=data;
-					var json = JSON.parse(temp._body);
-					postData.append('egg_pic[]',"https://imgur.com/"+json.data.id);
-				}, error => {
-					console.log(error);
-			});
+			promises.push(axios.post("https://api.imgur.com/3/image", formData,config));
 		}
-		this.httpClient.post('https://unswayable-dozen.000webhostapp.com/post.php?method=add',postData)
-		.subscribe(data => {
-				console.log(data['_body']);
-			}, error => {
-				console.log(error);
-		});
-		
-		
+		axios.all(promises).then(function(results) {
+			results.forEach(function(response) {
+				console.log(response.data.data.link);
+				postData.append('egg_pic[]',response.data.data.link);
+			})
+			postData.append('pic',results[0].data.data.link);
+			axios.post('https://unswayable-dozen.000webhostapp.com/post.php?method=add', postData);
+		});	
 	}
 }
