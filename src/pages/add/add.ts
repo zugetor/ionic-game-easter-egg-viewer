@@ -112,7 +112,7 @@ export class AddPage {
 		control.removeAt(i);
 	}
 
-	async  manage(val: any): void {
+	async manage(val: any) {
 		let postData=new FormData();
 		postData.append('name',this.name+" - "+this.selectGame);
 		postData.append('detail',this.detail);		
